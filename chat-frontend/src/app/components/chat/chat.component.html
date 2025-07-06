@@ -1,50 +1,68 @@
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 chat-bg">
   <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-      <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <h4 class="mb-0">
-            <i class="bi bi-robot"></i>
-            AI Chat Assistant
-          </h4>
+    <div class="col-md-12 col-lg-12">
+      <div class="card shadow rounded-4 border-0">
+        <div class="card-header bg-gradient-primary text-white rounded-top-4 d-flex align-items-center gap-2">
+          <i class="bi bi-robot fs-3"></i>
+          <h4 class="mb-0 flex-grow-1">AI Chat Assistant</h4>
         </div>
-        
         <div class="card-body p-0">
-          <div class="chat-container p-3" #chatContainer>
-            <div 
-              *ngFor="let message of messages" 
-              class="message"
-              [ngClass]="message.isUser ? 'user-message' : 'ai-message'">
-              <strong>{{ message.isUser ? 'You' : 'AI' }}:</strong>
-              <span *ngIf="message.isUser">{{ message.content }}</span>
-              <div *ngIf="!message.isUser" [innerHTML]="parseMarkdown(message.content)"></div>
+          <div class="chat-container p-3" #chatContainer style="background: #f8f9fa; min-height: 400px; max-height: 60vh; overflow-y: auto;">
+            <div
+              *ngFor="let message of messages"
+              class="d-flex mb-3"
+              [ngClass]="message.isUser ? 'justify-content-end' : 'justify-content-start'">
+              <div *ngIf="!message.isUser" class="me-2">
+                <span class="avatar bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                  <i class="bi bi-robot"></i>
+                </span>
+              </div>
+              <div [ngClass]="message.isUser ? 'user-bubble' : 'ai-bubble'" class="chat-bubble px-3 py-2 rounded-3 shadow-sm">
+                <span *ngIf="message.isUser" class="fw-bold text-primary">You:</span>
+                <span *ngIf="!message.isUser" class="fw-bold text-success">AI:</span>
+                <span *ngIf="message.isUser">{{ message.content }}</span>
+                <div *ngIf="!message.isUser" [innerHTML]="parseMarkdown(message.content)"></div>
+              </div>
+              <div *ngIf="message.isUser" class="ms-2">
+                <span class="avatar bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                  <i class="bi bi-person"></i>
+                </span>
+              </div>
+            </div>
+            <div *ngIf="isTyping" class="d-flex align-items-center mt-2">
+              <span class="avatar bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center me-2" style="width: 36px; height: 36px;">
+                <i class="bi bi-robot"></i>
+              </span>
+              <div class="typing-indicator-bubble px-3 py-2 rounded-3 shadow-sm">
+                <span class="typing-dots">
+                  <span>.</span><span>.</span><span>.</span>
+                </span>
+                <span class="ms-2 text-muted">AI is typing...</span>
+              </div>
             </div>
           </div>
-          
-          <div *ngIf="isTyping" class="typing-indicator">
-            <i class="bi bi-three-dots"></i> AI is typing...
-          </div>
         </div>
-        
-        <div class="card-footer">
-          <form (ngSubmit)="sendMessage()" class="d-flex gap-2">
-            <textarea 
+        <div class="card-footer bg-white rounded-bottom-4">
+          <form (ngSubmit)="sendMessage()" class="d-flex gap-2 align-items-end">
+            <textarea
               [(ngModel)]="newMessage"
               name="messageInput"
-              class="form-control message-input" 
-              rows="2" 
-              placeholder="Type your message here..." 
+              class="form-control message-input rounded-3 shadow-sm"
+              rows="2"
+              placeholder="Type your message here..."
               (keydown)="onKeyDown($event)"
               [disabled]="isLoading"
-              required></textarea>
-            <button 
-              type="submit" 
-              class="btn btn-primary" 
-              [disabled]="isLoading || !newMessage.trim()">
+              required
+              style="resize: none;"></textarea>
+            <button
+              type="submit"
+              class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+              [disabled]="isLoading || !newMessage.trim()"
+              style="width: 48px; height: 48px;">
               <i class="bi" [ngClass]="isLoading ? 'bi-hourglass-split' : 'bi-send'"></i>
             </button>
           </form>
-          <small class="text-muted">Press Shift+Enter for new line, Enter to send</small>
+          <small class="text-muted d-block mt-2">Press <b>Shift+Enter</b> for new line, <b>Enter</b> to send</small>
         </div>
       </div>
     </div>
