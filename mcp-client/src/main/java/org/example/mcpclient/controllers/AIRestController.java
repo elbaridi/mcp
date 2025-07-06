@@ -1,9 +1,14 @@
 package org.example.mcpclient.controllers;
 
 import org.example.mcpclient.agents.AIAgent;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.example.mcpclient.dtos.ChatRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class AIRestController {
 
@@ -12,8 +17,8 @@ public class AIRestController {
         this.agent = agent;
     }
 
-    @GetMapping("/chat")
-    public String chat(String query){
-        return agent.askLLM(query);
+    @PostMapping("/chat/send")
+    public String chat(@RequestBody ChatRequest req){
+        return agent.askLLM(req.query);
     }
 }

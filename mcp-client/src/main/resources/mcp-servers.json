@@ -1,21 +1,11 @@
 {
   "mcpServers": {
     "filesystem": {
-      "command": "npx",
+      "command": "npx.cmd",
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/Users/elba/Downloads/TP02-MCP-Project"
-      ]
-    },
-    "Python_MCP_Server": {
-      "command": "uvicorn",
-      "args": [
-        "server:app",
-        "--host",
-        "127.0.0.1",
-        "--port",
-        "8898"
+        "C:/Users/ayoub/Desktop/mcp/mcp"
       ]
     }
   }
